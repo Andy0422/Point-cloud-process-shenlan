@@ -4,6 +4,15 @@ import open3d as o3d
 import numpy as np
 import pandas as pd
 from pyntcloud import PyntCloud
+import argparse
+
+# 获取命令行参数
+def get_args():
+    parase = argparse.ArgumentParser()
+    parase.add_argument("--filename",type=str,default="../Data/modelnet40_normal_resampled/airplane/airplane_0001.txt")
+    parase.add_argument("--number_nearest",type=int,default=50)
+
+    return parase.parse_args()
 
 # 主成分分析，返回对应的奇异值和奇异向量
 def PCA(data, correlation=False, sort=True):
@@ -23,8 +32,13 @@ def PCA(data, correlation=False, sort=True):
 
 def main():
 
+    # 获取命令行参数
+    args = get_args()
+    filename = args.filename
+    number_nearest = args.number_nearest
+
     # 加载txt格式原始点云
-    point_cloud_pd = pd.read_csv("../../Data/modelnet40_normal_resampled/airplane/airplane_0001.txt")
+    point_cloud_pd = pd.read_csv(filename)
     point_cloud_pd.columns = ["x","y","z","nx","ny","nz"]
     point_cloud_pynt = PyntCloud(point_cloud_pd)
     point_cloud_o3d = point_cloud_pynt.to_instance("open3d", mesh=False)
@@ -53,7 +67,7 @@ def main():
     pcd_tree = o3d.geometry.KDTreeFlann(point_cloud_o3d)
     normals = []
     for point in point_cloud_o3d.points:
-        [k, idx, _] = pcd_tree.search_knn_vector_3d(point, knn=50)
+        [k, idx, _] = pcd_tree.search_knn_vector_3d(point, knn=number_nearest)
         w,v = PCA(points[idx,:])
         normals.append(v[:,2])
 

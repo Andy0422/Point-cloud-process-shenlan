@@ -7,12 +7,23 @@ import pandas as pd
 import math
 from pyntcloud import PyntCloud
 import random
+import argparse
+
+# 获取命令行参数
+def get_args():
+    parase = argparse.ArgumentParser()
+    parase.add_argument("--filename",type=str,default="../../Data/modelnet40_normal_resampled/airplane/airplane_0001.txt")
+    parase.add_argument("--leaf_size",type=float,default=0.08)
+    parase.add_argument("--mode",type=int,default=0)
+
+    return parase.parse_args()
+
 
 # 功能：对点云进行voxel滤波
 # 输入：
 #     point_cloud：输入点云
 #     leaf_size: voxel尺寸
-def voxel_filter(point_cloud, leaf_size):
+def voxel_filter(point_cloud, leaf_size,mode):
     filtered_points = []
 
     point_cloud = np.array(point_cloud, dtype=np.float64)
@@ -52,11 +63,13 @@ def voxel_filter(point_cloud, leaf_size):
             voxel.append(i)
         else:
             voxel.append(i)
-            # random
-            #random_index = random.randint(0,len(voxel)-1)
-            #choice_point = point_cloud[voxel[random_index],:]
-            # centroid
-            choice_point = np.mean(point_cloud[i-len(voxel)+1:i+1, :], axis=0)
+            if mode == 0:
+                # centroid
+                choice_point = np.mean(point_cloud[i-len(voxel)+1:i+1, :], axis=0)
+            else:
+                # random
+                random_index = random.randint(0,len(voxel)-1)
+                choice_point = point_cloud[voxel[random_index],:]
 
             filtered_points.append(choice_point)
             voxel = []
@@ -69,15 +82,21 @@ def voxel_filter(point_cloud, leaf_size):
 
 def main():
 
+    # 获取命令行参数
+    args = get_args()
+    filename = args.filename
+    leaf_size = args.leaf_size
+    mode = args.mode
+
     # 加载txt格式原始点云
-    point_cloud_pd = pd.read_csv("../../Data/modelnet40_normal_resampled/airplane/airplane_0001.txt")
+    point_cloud_pd = pd.read_csv(filename)
     point_cloud_pd.columns = ["x","y","z","nx","ny","nz"]
     point_cloud_pynt = PyntCloud(point_cloud_pd)
     point_cloud_o3d = point_cloud_pynt.to_instance("open3d", mesh=False)
     o3d.visualization.draw_geometries([point_cloud_o3d]) # 显示原始点云
 
     # 调用voxel滤波函数，实现滤波
-    filtered_cloud = voxel_filter(point_cloud_o3d.points, 0.08)
+    filtered_cloud = voxel_filter(point_cloud_o3d.points, leaf_size,mode)
     point_cloud_o3d.points = o3d.utility.Vector3dVector(filtered_cloud)
     #显示滤波后的点云
     o3d.visualization.draw_geometries([point_cloud_o3d])
