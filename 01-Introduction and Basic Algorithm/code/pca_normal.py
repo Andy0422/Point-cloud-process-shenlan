@@ -9,7 +9,7 @@ import argparse
 # 获取命令行参数
 def get_args():
     parase = argparse.ArgumentParser()
-    parase.add_argument("--filename",type=str,default="../Data/modelnet40_normal_resampled/airplane/airplane_0001.txt")
+    parase.add_argument("--filename",type=str,default="../../Data/modelnet40_normal_resampled/airplane/airplane_0001.txt")
     parase.add_argument("--number_nearest",type=int,default=50)
 
     return parase.parse_args()
@@ -37,11 +37,14 @@ def main():
     filename = args.filename
     number_nearest = args.number_nearest
 
+    point_cloud_o3d = o3d.geometry.PointCloud()
+    point_cloud_o3d.points = o3d.utility.Vector3dVector(np.genfromtxt(filename,delimiter=',')[:,0:3])
+
     # 加载txt格式原始点云
-    point_cloud_pd = pd.read_csv(filename)
-    point_cloud_pd.columns = ["x","y","z","nx","ny","nz"]
-    point_cloud_pynt = PyntCloud(point_cloud_pd)
-    point_cloud_o3d = point_cloud_pynt.to_instance("open3d", mesh=False)
+    # point_cloud_pd = pd.read_csv(filename)
+    # point_cloud_pd.columns = ["x","y","z","nx","ny","nz"]
+    # point_cloud_pynt = PyntCloud(point_cloud_pd)
+    # point_cloud_o3d = point_cloud_pynt.to_instance("open3d", mesh=False)
 
     # 显示原始点云
     o3d.visualization.draw_geometries([point_cloud_o3d]) 
