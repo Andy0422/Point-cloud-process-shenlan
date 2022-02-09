@@ -1,0 +1,6 @@
+octree --------------
+Octree: build 5999.931, knn 1.096, radius 0.491, brute 8.817
+kdtree --------------
+Kdtree: build 1222.994, knn 1.356, radius 0.241, brute 8.498
+Scipy-kdtree --------------
+Scipy-kdtree: build 221.709, knn 0.451

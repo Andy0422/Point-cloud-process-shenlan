@@ -35,7 +35,7 @@ def main():
     radius = 1
 
     # 数据读取
-    filename = "/Volumes/Data/深蓝学院课程/5-三维点云处理/Homework 2/000000.bin"
+    filename = "/workspace/Point-cloud-process-shenlan/02-Nearest Neighbor Problem/code/000000.bin"
     db_np = read_velodyne_bin(filename).T
 
     print("octree --------------")
