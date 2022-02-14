@@ -4,21 +4,21 @@
 
 ## RANSCA 地面拟合
 
-![](pictures/4.png)
+![](doc/images/4.png)
 
 ## DBSCAN 聚类
 
-![](pictures/5.png)
+![](doc/images/5.png)
 
 ## 结果展示
 
 在 velodyne 数据集中选取了三个数据进行实验，并使用 open3d 进行 显示，结果如下
 
-![](/doc/images/1.png)
+![](doc/images/1.png)
 
-![](/doc/images/2.png)
+![](doc/images/2.png)
 
-![](/doc/images/3.png)
+![](doc/images/3.png)
 
 上述实验结果看起来颜色颜色比较少，但只是颜色映射的问题，每张图 片的类别数都不小于 100，聚类算法是没有问题的，只是没有对每个类别分配一个可以区分的颜色。本次作业还有可以提高效率和效果的方面:
 
