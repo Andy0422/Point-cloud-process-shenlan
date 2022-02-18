@@ -4,5 +4,6 @@
 2. [02-Nearest Neighbor Problem](https://github.com/teamo1996/Point-cloud-process-shenlan/tree/main/02-Nearest%20Neighbor%20Problem)
 3. [03-Clustering](https://github.com/teamo1996/Point-cloud-process-shenlan/tree/main/03-Clustering)
 4. [04-Model Fittiing](https://github.com/teamo1996/Point-cloud-process-shenlan/tree/main/04-Model%20Fitting)
+5. [05-Deep Learning on Point Cloud](https://github.com/teamo1996/Point-cloud-process-shenlan/tree/main/05-Deep%20Learning%20on%20Point%20Cloud)
 
 
